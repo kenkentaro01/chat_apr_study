@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		96EEFAF72BC1540800F28384 /* chat_apr_studyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EEFAF62BC1540800F28384 /* chat_apr_studyApp.swift */; };
-		96EEFAF92BC1540800F28384 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EEFAF82BC1540800F28384 /* ContentView.swift */; };
 		96EEFAFB2BC1540A00F28384 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96EEFAFA2BC1540A00F28384 /* Assets.xcassets */; };
 		96EEFAFE2BC1540A00F28384 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96EEFAFD2BC1540A00F28384 /* Preview Assets.xcassets */; };
+		96EEFB052BC196A900F28384 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EEFB042BC196A900F28384 /* ChatView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		96EEFAF32BC1540800F28384 /* chat_apr_study.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chat_apr_study.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96EEFAF62BC1540800F28384 /* chat_apr_studyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chat_apr_studyApp.swift; sourceTree = "<group>"; };
-		96EEFAF82BC1540800F28384 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		96EEFAFA2BC1540A00F28384 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		96EEFAFD2BC1540A00F28384 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		96EEFB042BC196A900F28384 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				96EEFAF62BC1540800F28384 /* chat_apr_studyApp.swift */,
-				96EEFAF82BC1540800F28384 /* ContentView.swift */,
+				96EEFB042BC196A900F28384 /* ChatView.swift */,
 				96EEFAFA2BC1540A00F28384 /* Assets.xcassets */,
 				96EEFAFC2BC1540A00F28384 /* Preview Content */,
 			);
@@ -137,7 +137,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96EEFAF92BC1540800F28384 /* ContentView.swift in Sources */,
+				96EEFB052BC196A900F28384 /* ChatView.swift in Sources */,
 				96EEFAF72BC1540800F28384 /* chat_apr_studyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ChatView: View {
+    @State private var textFieldText : String = ""
+    
+    let vm: ChatViewModel = ChatViewModel()
     var body: some View {
 //        不要なスペースを無効化
         VStack(spacing:0){
@@ -49,16 +52,25 @@ extension ChatView{
     }
     private var inputArea: some View{
         HStack{
-            Circle()
-                .frame(width: 40,height: 40)
-            Circle()
-                .frame(width: 40,height: 40)
-            Circle()
-                .frame(width: 40,height: 40)
-            Capsule()
-                .frame(height: 40)
-            Circle()
-                .frame(width: 40,height: 40)
+            HStack{
+                Image(systemName: "plus")
+                Image(systemName: "camera")
+                Image(systemName: "photo")
+            }
+            .font(.title2)
+            TextField("Area",text: $textFieldText)
+                .padding()
+                .background(Color(uiColor: .secondarySystemBackground))
+                .clipShape(Capsule())
+                .overlay(Image(systemName: "face.smiling")
+                    .font(.title2)
+                    .foregroundColor(.gray)
+                    .padding()
+//                         右端による
+                         ,alignment: .trailing)
+            
+            Image(systemName: "mic")
+                .font(.title2)
         }
         .padding()
         .background(.white)

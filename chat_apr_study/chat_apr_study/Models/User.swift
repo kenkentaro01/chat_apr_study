@@ -16,6 +16,8 @@ struct User: Decodable{
 //    ログインユーザーかどうかの計算プロパティ
     var isCurrentUser :Bool{
 //        下記の式に一致していればTrueをそうでなければFalseを返す（returnは省略できる）
-        self.id == "1"
+        self.id == User.currentUser.id    }
+    static var currentUser: User{
+        User(id: "1", name: "カーキ", image: "user01")
     }
 }

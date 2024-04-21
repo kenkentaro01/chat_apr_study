@@ -17,7 +17,6 @@ class ChatViewModel{
 //        ChatViewModelが初期化された時に実行される
         chatData = fetchChatData()
         messages = chatData[0].messages
-        print(messages)
     }
     private func fetchChatData()->[Chat]{
         let fileName = "chatData.json"
@@ -43,5 +42,16 @@ class ChatViewModel{
         }catch{
             fatalError("\(fileName)を\(Chat.self)に変換することに失敗しました。")
         }
+    }
+    func addMessage(text: String){
+//        /Message型インスタンスを作成するためにメッセージを初期化します。
+//        UUIDはユニークな値を作成してくれる。
+        let newMessage = Message(id: UUID().uuidString,
+                                 text:text,
+                                 user: User.currentUser,
+                                 date: Date().description,
+//                                 投稿するテキストは既読ではないのでfalse
+                                 readed: false
+        )
     }
 }

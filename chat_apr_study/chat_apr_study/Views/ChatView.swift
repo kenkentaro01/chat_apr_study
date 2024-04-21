@@ -33,6 +33,7 @@ struct ChatView: View {
 }
 
 extension ChatView{
+    
 //    private : アクセス修飾子
 //    ChatViewの中からのみアクセスすることができる。
     private var messageArea: some View{
@@ -51,7 +52,8 @@ extension ChatView{
             .padding(.top,72)
             
         }
-        .background(.cyan)
+//        カラーの中身の名前はAsset.xcassetsで作成したColorsフォルダ内にある名前となる
+        .background(Color("Background"))
     }
     private var inputArea: some View{
         HStack{
@@ -71,12 +73,15 @@ extension ChatView{
                     .padding()
 //                         右端による
                          ,alignment: .trailing)
-            
+                .onSubmit {
+                    sendMessage()
+                }
             Image(systemName: "mic")
                 .font(.title2)
         }
-        .padding()
-        .background(.white)
+        .padding(.horizontal)
+        .padding(.trailing)
+        .background(Color(uiColor: .systemBackground))
     }
     
     private var navigationArea: some View{
@@ -85,7 +90,7 @@ extension ChatView{
                 .font(.title2)
             Text("Title")
                 .font(.title2.bold())
-//                    横いっぱいに広げるためのspacerを利用する
+            //                    横いっぱいに広げるためのspacerを利用する
             Spacer()
             HStack(spacing: 16){
                 Image(systemName: "text.magnifyingglass")
@@ -94,7 +99,13 @@ extension ChatView{
             }
             .font(.title2)
         }
-            .padding()
-            .background(.cyan.opacity(0.9))
+        .padding()
+        .background(Color("Background").opacity(0.9))
     }
-}
+        
+        private func sendMessage(){
+//            データの処理は複数あると混乱するためChatViewModelの中でまとめる
+            vm.addMessage(text: textFieldText)
+        }
+    }
+

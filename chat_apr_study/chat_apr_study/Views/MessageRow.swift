@@ -47,8 +47,10 @@ extension MessageRow{
     private var messageText: some View{
         Text(message.text)
             .padding()
-            .background(.white)
+//        ? :は参考演算子と呼ばれるもの　Trueだった場合　：　の左側の処理が実行される
+            .background(message.user.isCurrentUser ? Color("Bubble"): Color(uiColor: .tertiarySystemBackground))
             .cornerRadius(30)
+            .foregroundColor(message.user.isCurrentUser ?.black:.primary)
     }
     private var messageState: some View{
         VStack(alignment: .trailing){

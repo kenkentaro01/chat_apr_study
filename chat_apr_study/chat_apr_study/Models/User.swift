@@ -12,4 +12,10 @@ struct User: Decodable{
     let id: String
     let name: String
     let image: String
+    
+//    ログインユーザーかどうかの計算プロパティ
+    var isCurrentUser :Bool{
+//        下記の式に一致していればTrueをそうでなければFalseを返す（returnは省略できる）
+        self.id == "1"
+    }
 }

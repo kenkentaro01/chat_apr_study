@@ -39,8 +39,11 @@ extension ChatView{
         ScrollView{
 //                縦にメッセージが入っていくためのvstack
             VStack(spacing:0){
-                ForEach(0..<15){ _ in
-                    MessageRow()
+//               第一引数に配列を渡す場合は、idを第二引数で渡す必要がある
+//                Identifiableを記述していると「id: \.id」が必要なくなる
+                ForEach(vm.messages){ message in
+//                    Text(message.id)
+                    MessageRow(message: message)
             }
             }
 //                左右に隙間を開ける

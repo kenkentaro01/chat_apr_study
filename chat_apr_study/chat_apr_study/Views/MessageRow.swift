@@ -8,32 +8,44 @@
 import SwiftUI
 
 struct MessageRow: View {
+    let message: Message
+    
     var body: some View {
         HStack(alignment: .top){
-            userThumb
-            messageText
-            messageState
-            Spacer()
+            if message.user.isCurrentUser{
+//                ログインユーザであるときの処理
+                Spacer()
+                messageState
+                messageText
+                
+            }else{
+//                ログインユーザでなかったときの処理
+                userThumb
+                messageText
+                messageState
+                Spacer()
+            }
+           
     }
         .padding(.bottom)
     }
 }
 
-#Preview {
-    MessageRow()
-//    アプリの実装の際には、以下の背景色は影響しない
-        .background(.cyan)
-}
+//#Preview {
+//    MessageRow()
+////    アプリの実装の際には、以下の背景色は影響しない
+//        .background(.cyan)
+//}
 
 extension MessageRow{
     private var userThumb: some View{
-        Image("user01")
+        Image(message.user.image)
             .resizable()
             .frame(width: 48,height: 48)
             .clipShape(Circle())
     }
     private var messageText: some View{
-        Text("こんにちは")
+        Text(message.text)
             .padding()
             .background(.white)
             .cornerRadius(30)
@@ -41,7 +53,11 @@ extension MessageRow{
     private var messageState: some View{
         VStack(alignment: .trailing){
             Spacer()
-            Text("既読")
+//            ログインユーザーかつ既読とついている場合
+            if message.user.isCurrentUser && message.readed{
+                Text("既読")
+            }
+            
             Text(formattedDateString)
         }
         .foregroundColor(.secondary)
@@ -49,7 +65,11 @@ extension MessageRow{
     }
     private var formattedDateString: String{
         let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return formatter.string(from: Date())
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//        date型に変換した値をdateに与える
+        guard let date  = formatter.date(from: message.date) else {return ""}
+//        時間だけを表示する
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: date)
     }
 }

@@ -6,8 +6,8 @@
 //
 
 import Foundation
-
-struct Message: Decodable{
+//Identifiableを記述することで、値がユニークになるメンバーを持っていることが保証される。」
+struct Message: Decodable,Identifiable{
 //    スイフトで自動的に生成される文字列の値が代入されるようにしている。
     let id: String
     let text: String

@@ -7,16 +7,19 @@
 
 import Foundation
 
-class ChatViewModel{
+//ChatViewModelはchatView.swiftで初期化されてvmの変数へ渡している。
+//classの場合、初期化されてインスタンスが渡される場合コピーではなく参照が渡される。
+//ChatViewが初期化されるタイミングは、chat_apr_studyApp.swiftのところ→アプリを立ち上げた直後
+//ユーザが投稿するタイミングはアプリを立ち上げた後のタイミング
+
+class ChatViewModel: ObservableObject{
 //    後からデータの値を変更できるようにするためにvarで宣言
-    var chatData: [Chat] = []
-//    Chatモデルのmessagesプロパティのデータのため以下のデータ型になる。
-    var messages: [Message] = []
+    @Published var chatData: [Chat] = []
+//    Chatモデルのmessagesプロパティのデータのため以下のデータ型になる。→どこからもアクセスされなくなったため削除
     
     init(){
 //        ChatViewModelが初期化された時に実行される
         chatData = fetchChatData()
-        messages = chatData[0].messages
     }
     private func fetchChatData()->[Chat]{
         let fileName = "chatData.json"
@@ -43,15 +46,33 @@ class ChatViewModel{
             fatalError("\(fileName)を\(Chat.self)に変換することに失敗しました。")
         }
     }
-    func addMessage(text: String){
+    func addMessage(chatID: String, text: String){
+        
+       guard let index = chatData.firstIndex(where:{chat in
+            chat.id == chatID
+       }) else {return }
 //        /Message型インスタンスを作成するためにメッセージを初期化します。
 //        UUIDはユニークな値を作成してくれる。
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let formattedDateString = formatter.string(from: Date())
+        
         let newMessage = Message(id: UUID().uuidString,
                                  text:text,
                                  user: User.currentUser,
-                                 date: Date().description,
+                                 date: formattedDateString,
 //                                 投稿するテキストは既読ではないのでfalse
                                  readed: false
         )
+//        classの中の値が変更されたタイミンングで画面を再描画する仕組みを実装する。
+//        3つのポイント
+//        ・定数vmに対してオブザーどを付与すること。
+//        ・Generic struct 'ObservedObject' requires that 'ChatViewModel' conform to 'ObservableObject'
+//        →オブザーどオブジェクトを付与する対象のクラスは必ずオブザーバルオブジェクトプロトコルに準拠していなければならに
+//        2つ目のポイントだけでは画面に反映されない。
+//        →オブザーバルオブジェクトプロトコルは監視対象のクラスから何らかの通知があった際に自身のViweを再描写するだけのため
+//        ・通知する仕組みは監視対象のクラスで実装すること
+//        →@published を追記する必要がある
+        chatData[index].messages.append(newMessage)
     }
 }

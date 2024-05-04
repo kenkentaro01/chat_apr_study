@@ -75,4 +75,53 @@ class ChatViewModel: ObservableObject{
 //        →@published を追記する必要がある
         chatData[index].messages.append(newMessage)
     }
+    
+    func getTitle(messages: [Message]) -> String{
+        var title = ""
+        let names = getMembers(messages: messages, type: .name)
+        
+        for name in names{
+//            三項演算子を利用することで、最後にカンマをつかないようにする。
+                    title += title.isEmpty ?"\(name)" : ",\(name)"
+        }
+        return title
+    }
+//    ナビゲーションのアイコンを配列に格納してビューに渡すための関数
+//    returnは省略
+    func getImages(messages:[Message]) -> [String]{getMembers(messages: messages, type: .image)}
+//    getMembersはgetImagesとgetTitleからしかアクセスされないためprivateによりアクセス制限する。
+//    privateはこのクラス内でしかアクセスされない　→不用意なアクセスを防ぐことでバグを避けることができる
+    private func getMembers(messages:[Message],type: valueType)->[String]{
+        var members: [String] = []
+        var userIds: [String] = []
+        
+        for message in messages{
+            let id = message.user.id
+//            重複を避ける処理
+//            continueはfor構文で使用できる
+//             投稿したidとcurrentUserのidが一致していた場合、continue以降の処理は実行されない。
+//            カレントユーザーの判定を先に行う理由
+//              →効率が上がるため
+            if id == User.currentUser.id{continue}
+            if userIds.contains(id){continue}
+            userIds.append(id)
+      
+//            if文と違うところは、列挙型で記載されていないものに関してコンパイラーエラーで通知してくれるところ
+//            数に縛られないメリットがある
+//              →Bool型の場合２種類飲みになってしまう
+            switch type{
+            case .name:
+                members.append(message.user.name)
+            case .image:
+                members.append(message.user.image)
+            }
+
+        }
+        return members
+    }
+}
+
+enum valueType{
+    case name
+    case image
 }

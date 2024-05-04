@@ -64,12 +64,27 @@ extension ListView{
     private func listRow(chat: Chat)-> some View {
 //    private var listRow: some View{
         HStack{
-            Image("user01")
-                .resizable()
-                .frame(width: 40,height: 40)
-                .clipShape(Circle())
+            
+            let images = vm.getImages(messages: chat.messages)
+            HStack(spacing: -28){
+//                ループ処理して得られる要素の一意性を保証する。
+                ForEach(images,id: \.self){ image in
+                    Image(image)
+                       .resizable()
+                       .frame(width: 48,height: 48)
+                       .clipShape(Circle())
+                       .background(
+                       Circle()
+                        .foregroundColor(Color(uiColor: .systemBackground))
+                        .frame(width: 54,height: 54))
+                }
+            }
+            
+//
             VStack{
-                Text("タイトル")
+                Text(vm.getTitle(messages: chat.messages))
+//                1行で表示できるように編集
+                    .lineLimit(1)
                     .foregroundColor(.primary)
                 Text(chat.recentMessageText)
                     .font(.footnote)

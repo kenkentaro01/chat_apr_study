@@ -72,7 +72,16 @@ extension ChatView{
                 textFieldFocused = false
             }
             .onAppear{
+//                smoothをfalseに元々設定しているため、引数で渡す必要はない
                 scrollToLast(proxy: proxy)
+            }
+//onChangeモディファイアで値の変更を監視する対象を設定する。
+            .onChange(of: chat.messages) {
+                scrollToLast(proxy: proxy, smooth: true)
+            }
+//            keyboardDidShowNotificationはキーボードが表示された後の通知を取得することができる
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardDidShowNotification)){ _ in
+                scrollToLast(proxy: proxy, smooth: true)
             }
         }
     }
@@ -144,11 +153,26 @@ extension ChatView{
         }
     }
     
-    private func scrollToLast(proxy: ScrollViewProxy){
+    private func scrollToLast(proxy: ScrollViewProxy, smooth: Bool = false){
         //        オプショナル型になるためif文によってアンラップする必要がある。
         if let lastMessage = chat.messages.last{
-//            このめっソドの引数はユニークのデータを渡す必要がある。
-            proxy.scrollTo(lastMessage.id, anchor: .bottom)
+            if smooth{
+//                リストビューからmessageビューに移るときはアニメーションをしないように設定
+                withAnimation(.smooth) {
+                    //                アニメーションかしてくれる
+                    //            このめっソドの引数はユニークのデータを渡す必要がある。
+                    proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                }
+                }else{
+                    proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                }
+            
+            }
+
         }
     }
-}
+
+
+//通知パターンとは
+//アプリ内のオブジェクトで発生したイベントの発生や状態の変化を検知して、異なるオブジェkとに通知する仕組みを実現する手法のこと。
+//その中のひつに、NotificationCenterを用いたパターン手法がある。
